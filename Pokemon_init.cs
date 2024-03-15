@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Pokemon_init : MonoBehaviour
 {
+    // declaration of variable the ones with [SerializeField] will be visibles in the inspector
     [SerializeField] private string pkName = "Amphinobi";
     [SerializeField] private int baseLife = 100;
     private int currentLife = 100;
@@ -37,6 +38,7 @@ public class Pokemon_init : MonoBehaviour
     [SerializeField] private types[] weakness = new types[2];
     [SerializeField] private types[] resistances = new types[2];
     
+    // When the script is played current Life will be initialized, then the pokemon data will be shown in the console and the pokeemon will receive an attack
     void Start()
     {
         currentLife = baseLife;
@@ -52,11 +54,12 @@ public class Pokemon_init : MonoBehaviour
         TakeDamage(10, type);
     }
 
+    // play every frame the fuction for checking if the pokemon is alive
     void Update(){
         CheckIfPokemonAlive();
     }
 
-
+    // Display functions for displaying pokemon data in the console
     private void Display_Name(){
         Debug.Log("Name : " + pkName);
     }
@@ -99,24 +102,29 @@ public class Pokemon_init : MonoBehaviour
         }
     }
 
+    // Initialisation of stats points
     private int InitStatsPoints(){
         statsPoints = baseLife + atk + def;
         return statsPoints;
     }
 
+    // get the attack value of the pokemon
     private int  GetAttackDamage(){
         return atk;
     }
 
+    // fuction for when the pokemon takes damages
     private void TakeDamage(int attack, types ennemyType){
+        // the value of the current life of the pokemon must be greather than 0
         if (currentLife > 0){
+            // the "if" and the two "else if" verify if the pokemon is weak, resistant or immune to the attack
             if (weakness.Contains(ennemyType)){
                 attack *= 2;
             }
-            if (resistances.Contains(ennemyType)){
+            else if (resistances.Contains(ennemyType)){
                 attack /= 2;
             }
-            if (attack <= 0){
+            else if (attack <= 0){
                 Debug.Log("The attack had no effect");
                 return;
             }
@@ -125,9 +133,13 @@ public class Pokemon_init : MonoBehaviour
         }
     }
 
+    // function that check if the pokemon is alive or dead 
     private void CheckIfPokemonAlive(){
         if (currentLife > 0){
             Debug.Log(pkName + " is still alive");
+        }
+        else {
+            Debug.Log(pkName + " is dead");
         }
     }
 }
